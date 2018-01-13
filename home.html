@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello</title>
+</head>
+<body>
+	<button onclick="ws();">WebSocket</button>
+
+</body>
+<script type="text/javascript">
+	function ws(){	
+	    if (window["WebSocket"]) {
+	        conn = new WebSocket("ws://" + document.location.host + "/ws?name=nader");
+	        conn.onclose = function (evt) {
+	            console.log(evt)
+	        };
+	        conn.onmessage = function (evt) {
+	           console.log(evt)
+	        };
+	    }
+	}
+</script>
+</html>
