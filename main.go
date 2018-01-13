@@ -17,7 +17,7 @@ type user struct{
 	conn *websocket.Conn
 }
 func (c *Controller) ReadMessage(){
-
+	
 }
 type Controller struct {
 	Online map[uuid.UUID]*user
