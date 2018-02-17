@@ -1,7 +1,0 @@
-{
-	"api-keys" : {
-		"sendgrid-special-api" : "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",
-		"mailgun-public-api" : "pubkey-955688d8ad25ffec4989d4f1e9b4cd78",
-		"mailgun-private-api" : "key-930375f098c8cf112a92670f935027b4"
-	}
-}
