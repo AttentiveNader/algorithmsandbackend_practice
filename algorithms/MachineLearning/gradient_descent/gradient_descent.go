@@ -42,10 +42,10 @@ func StepGradient(m float64, b float64, points [][]float64, learningRate float64
 	return (m + mG*learningRate), (b + bG*learningRate)
 }
 
-func GradientDescent(recs [][]float64) {
-	learningRate := 0.0001
-	m := float64(2.0)
-	b := float64(5.0)
+func GradientDescent(recs [][]float64, iniM float64, iniB float64, learningRate float64) {
+	//learningRate := 0.0001
+	m := iniM
+	b := iniB
 	for i := 0; i < 10; i++ {
 		/*	if i%10000 == 0 && i > 10000 {
 			if learningRate < 0.01 {
@@ -76,7 +76,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	testedPoints := make([][]float64, len(records))
+	testPoints := make([][]float64, len(records))
 	for i := 0; i < len(records); i++ {
 		x, err := strconv.ParseFloat(records[i][0], 64)
 		y, err := strconv.ParseFloat(records[i][1], 64)
@@ -84,7 +84,7 @@ func main() {
 			log.Fatal(err)
 			return
 		}
-		testedPoints[i] = append(testedPoints[i], float64(x), float64(y))
+		testPoints[i] = append(testPoints[i], float64(x), float64(y))
 	}
-	GradientDescent(testedPoints)
+	GradientDescent(testPoints, float64(4), float64(5), float64(0.0001))
 }
