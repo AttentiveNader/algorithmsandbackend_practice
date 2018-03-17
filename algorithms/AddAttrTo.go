@@ -22,7 +22,37 @@ func GetPath() string {
 	}
 	return path[:len(path)-1]
 }
-func LoopThrFiles(files []os.FileInfo, wg *sync.WaitGroup, tag string, attr string) {
+func Getag() string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter the tag  : ")
+	tag, err := reader.ReadString('\n')
+	if err != nil {
+		logErr(err)
+		Getag()
+	}
+	return tag[:len(tag)-1]
+}
+func GeHelper() string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter the Helper  : ")
+	Helper, err := reader.ReadString('\n')
+	if err != nil {
+		logErr(err)
+		GeHelper()
+	}
+	return Helper[:len(Helper)-1]
+}
+func GetAttribute() string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter the Attribute  : ")
+	Attribute, err := reader.ReadString('\n')
+	if err != nil {
+		logErr(err)
+		GetAttribute()
+	}
+	return Attribute[:len(Attribute)-1]
+}
+func LoopThrFiles(files []os.FileInfo, wg *sync.WaitGroup, tag string, attr string, helper string) {
 	for i := 0; i < len(files); i++ {
 		wg.Add(1)
 		go func(file os.FileInfo, wg *sync.WaitGroup) {
@@ -36,7 +66,7 @@ func LoopThrFiles(files []os.FileInfo, wg *sync.WaitGroup, tag string, attr stri
 			}
 			defer wg.Done()
 			content := string(f)
-			editedFile := AddAttrToTag(content, tag, attr)
+			editedFile := AddAttrToTag(content, tag, attr, helper)
 			err = ioutil.WriteFile(workingPath+file.Name(), []byte(editedFile), file.Mode())
 			fmt.Println("1 is finsished")
 			logErr(err)
@@ -44,7 +74,7 @@ func LoopThrFiles(files []os.FileInfo, wg *sync.WaitGroup, tag string, attr stri
 	}
 	wg.Wait()
 }
-func AddAttrToTag(file string, tag string, attribute string) string {
+func AddAttrToTag(file string, tag string, attribute string, helper string) string {
 	inTagCondition := false
 	lines := strings.Split(file, "\n")
 	for i := 0; i < len(lines); i++ {
@@ -53,7 +83,7 @@ func AddAttrToTag(file string, tag string, attribute string) string {
 			if inTagCondition {
 				if !strings.Contains(line[t], attribute) {
 					fmt.Println("--------------------inner of tag----------------------")
-					if strings.Contains(line[t], "type") {
+					if strings.Contains(line[t], helper) {
 						inTagCondition = false
 						line[t] = " " + attribute + " " + line[t]
 						fmt.Println(line)
@@ -83,12 +113,15 @@ var workingPath string
 func main() {
 	var wg sync.WaitGroup
 	workingPath = GetPath()
-	if workingPath[len(workingPath)-1] != rune("/") {
+	tag := Getag()
+	helper := GeHelper()
+	attribute := GetAttribute()
+	if string(workingPath[len(workingPath)-1]) != "/" {
 		workingPath += "/"
 	}
 	files, err := ioutil.ReadDir(workingPath)
 	hPanic(err)
-	LoopThrFiles(files, &wg, "input", `autocomplete="off"`)
+	LoopThrFiles(files, &wg, tag, attribute, helper)
 }
 
 func hPanic(err error) {
