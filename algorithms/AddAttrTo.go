@@ -114,7 +114,7 @@ func main() {
 	var wg sync.WaitGroup
 	workingPath = GetPath()
 	tag := Getag()
-	helper := GeHelper()
+	helper := GeHelper() //helper is just a sign that should be in the tag text like another attribute and don't have it include this attribute value
 	attribute := GetAttribute()
 	if string(workingPath[len(workingPath)-1]) != "/" {
 		workingPath += "/"
