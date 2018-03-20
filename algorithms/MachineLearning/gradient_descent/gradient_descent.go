@@ -47,15 +47,7 @@ func GradientDescent(recs [][]float64, iniM float64, iniB float64, learningRate 
 	m := iniM
 	b := iniB
 	for i := 0; i < 10; i++ {
-		/*	if i%10000 == 0 && i > 10000 {
-			if learningRate < 0.01 {
-				learningRate = learningRate * (float64(10))
-			}
-		}*/
 		m, b = StepGradient(m, b, recs, learningRate)
-		/*yG := m*recs[i][0] + b
-		totalLoss += (recs[i][1] - yG) * (recs[i][1] - yG)
-		fmt.Println(recs[i][1], yG, "LOSS", (recs[i][1]-yG)*(recs[i][1]-yG))*/
 	}
 	fmt.Println("learningRate", learningRate, "m", m, "b", b)
 }
