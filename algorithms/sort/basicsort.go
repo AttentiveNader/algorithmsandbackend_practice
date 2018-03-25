@@ -6,7 +6,7 @@ import (
 
 var low int = 0 
 
-func SortSel(slice []int) []int {
+func SelectionSort(slice []int) []int {
 	var high int = len(slice) 
 	
 	for i := low ; i < high ; i++{
