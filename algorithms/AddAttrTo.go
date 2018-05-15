@@ -78,6 +78,9 @@ func AddAttrToTag(file string, tag string, attribute string, helper string) stri
 	inTagCondition := false
 	lines := strings.Split(file, "\n")
 	for i := 0; i < len(lines); i++ {
+		if !strings.Contains(lines[i], attribute) {
+			continue
+		}
 		line := strings.Split(lines[i], " ")
 		for t := 0; t < len(line); t++ {
 			if inTagCondition {
@@ -114,7 +117,7 @@ func main() {
 	var wg sync.WaitGroup
 	workingPath = GetPath()
 	tag := Getag()
-	helper := GeHelper() //helper is just a sign that should be in the tag text like another attribute and don't have it include this attribute value
+	helper := GeHelper() //helper is just a sign that should be in the tag text like another attribute and doesn't have to include that attribute value
 	attribute := GetAttribute()
 	if string(workingPath[len(workingPath)-1]) != "/" {
 		workingPath += "/"

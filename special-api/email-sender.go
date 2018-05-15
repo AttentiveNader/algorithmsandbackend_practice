@@ -4,9 +4,8 @@ import (
 	"net/smtp"
 	//	"crypto/tls"
 	"fmt"
-	//"github.com/sendgrid/sendgrid-go"
-	//"github.com/sendgrid/sendgrid-go/helpers/mail"
 	"log"
+	"net/http"
 )
 
 type Email struct {
@@ -17,7 +16,7 @@ type Email struct {
 }
 
 func (e *Email) BuildMessage() []byte {
-	m := "Subject :" + e.Subject + "\n \n" + e.Body
+	m := "Subject :" + e.Subject + "\n" + "from: " + e.address + "\n" + e.name + "\n" + e.Body
 	fmt.Println(e)
 	return []byte(m)
 }
@@ -32,23 +31,32 @@ func (s *SmtpServer) ReturnHostName() string {
 	return host
 }
 
-func main() {
+func sendEmail(w http.RepsoneWriter, name, address, message, pass string) {
 	email := Email{
 		From:    "nader.special.api@gmail.com",
 		To:      []string{"nader_atef80@outlook.com"},
-		Subject: "hello",
-		Body:    "hello its me \n hello \n hello",
+		Subject: "Email from portfolio site",
+		Body:    message,
+		address: address,
+		name:    name,
 	}
 	server := SmtpServer{
 		Host: "smtp.gmail.com",
 		Port: "587",
 	}
 	//host := server.ReturnHostName
-	auth := smtp.PlainAuth("", email.From, "password", server.Host)
+	auth := smtp.PlainAuth("", email.From, pass, server.Host)
 	err := smtp.SendMail(server.ReturnHostName(), auth, email.From, email.To, email.BuildMessage())
 	if err != nil {
 		log.Printf("smtp error: %s", err)
 		return
 	}
 	log.Print("sent, ")
+}
+
+func main() {
+	pass := os.Getenv("gmailapipass")
+	http.HandleFunc("/send", func(w http.ResponseWriter, r http.Request) {
+
+	})
 }
