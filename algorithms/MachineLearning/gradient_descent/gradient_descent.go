@@ -39,7 +39,7 @@ func StepGradient(m float64, b float64, points [][]float64, learningRate float64
 	}
 	fmt.Println("TotalLoss ____________________ ", (totalLoss / N))
 	fmt.Println("-------------weights------------", "m ", (m - mG*learningRate), "b ", (b - bG*learningRate), "averageLoss", (losses / float64(100)))
-	return (m + mG*learningRate), (b + bG*learningRate)
+	return (m - mG*learningRate), (b - bG*learningRate)
 }
 
 func GradientDescent(recs [][]float64, iniM float64, iniB float64, learningRate float64) {
