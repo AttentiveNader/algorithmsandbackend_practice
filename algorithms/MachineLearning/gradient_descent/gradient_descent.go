@@ -26,8 +26,8 @@ func StepGradient(m float64, b float64, points [][]float64, learningRate float64
 		x := points[i][0]
 		yG := m*x + b
 		err := y - yG
-		mG += (float64(2) / N) * err * x
-		bG += (float64(2) / N) * err
+		mG += (float64(-2) / N) * err * x
+		bG += (float64(-2) / N) * err
 		totalLoss += (err * err)
 		if err < 0 {
 			losses += (-err)
